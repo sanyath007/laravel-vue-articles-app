@@ -44528,7 +44528,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 var disposed = false
 var normalizeComponent = __webpack_require__(40)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(55)
 /* template */
 var __vue_template__ = __webpack_require__(41)
 /* template functional */
@@ -44685,16 +44685,89 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c("h1", [_vm._v("Articles")]),
+      _vm._v(" "),
+      _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
+        _c("ul", { staticClass: "pagination" }, [
+          _c(
+            "li",
+            {
+              staticClass: "page-item",
+              class: [{ disabled: !_vm.pagination.prev_page_url }]
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      return _vm.fetchArticles(_vm.pagination.prev_page_url)
+                    }
+                  }
+                },
+                [_vm._v("\n          Previous\n        ")]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c("li", { staticClass: "page-item disabled" }, [
+            _c(
+              "a",
+              { staticClass: "page-link text-dark", attrs: { href: "#" } },
+              [
+                _vm._v(
+                  "\n          Page " +
+                    _vm._s(_vm.pagination.current_page) +
+                    " of " +
+                    _vm._s(_vm.pagination.last_page) +
+                    "\n        "
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              staticClass: "page-item",
+              class: [{ disabled: !_vm.pagination.next_page_url }]
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      return _vm.fetchArticles(_vm.pagination.next_page_url)
+                    }
+                  }
+                },
+                [_vm._v("\n          Next\n        ")]
+              )
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.articles, function(article) {
+        return _c("div", { key: article.id, staticClass: "card card-body" }, [
+          _c("h3", [_vm._v(_vm._s(article.title))]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(article.body))])
+        ])
+      })
+    ],
+    2
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("h1", [_vm._v("Articles")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -44803,6 +44876,92 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-cadbadf2", module.exports)
   }
 }
+
+/***/ }),
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      articles: [],
+      article: {
+        id: '',
+        title: '',
+        body: ''
+      },
+      article_id: '',
+      pagination: {},
+      edit: false
+    };
+  },
+  created: function created() {
+    this.fetchArticles();
+  },
+
+  methods: {
+    fetchArticles: function fetchArticles(page_url) {
+      var _this = this;
+
+      var vm = this;
+      console.log(page_url);
+      page_url = page_url || 'api/articles';
+
+      fetch(page_url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.articles = res.data;
+        vm.makePagination(res.meta, res.links);
+      }).catch(function (err) {
+        return console.log(err);
+      });
+    },
+    makePagination: function makePagination(meta, links) {
+      var pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next,
+        prev_page_url: links.prev
+      };
+
+      this.pagination = pagination;
+    }
+  }
+});
 
 /***/ })
 /******/ ]);
